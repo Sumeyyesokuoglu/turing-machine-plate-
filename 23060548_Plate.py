@@ -130,7 +130,7 @@ class TuringMachine:
 
     def run(self):
         """Simülasyonu başlatır ve sonuç üretir."""
-        print(f"\n--- Turing Makinesi Simülasyonu Başlıyor ---\n")
+        print(f"\nBanta yerleştirildi: {''.join(self.tape[:-1])}\n")
         
         while not self.is_halted:
             self.step()
