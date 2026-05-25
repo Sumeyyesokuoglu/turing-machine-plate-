@@ -2,35 +2,34 @@ import sys
 
 class TuringMachine:
     def __init__(self, input_string):
-        # 1. Turing Makinesi bant yapısı (Boşluk sembolü: '_')
+       
         self.tape = list(input_string) + ['_']
-        
-        # 2. Okuma/yazma kafası (Başlangıçta 0. indekste)
+   
         self.head_position = 0
         
-        # 7. Başlangıç durumu
+        
         self.current_state = 'q0'
         
-        # 8, 9. Kabul, Red durumları tanımı
+    
         self.accept_state = 'q7'  
         self.reject_state = 'q_red'
         
-        self.is_halted = False    # Makinenin durma (halting) kontrolü
+        self.is_halted = False  
         
-        # 4, 5. Alfabe Tanımlamaları
+ 
         self.digits = set('0123456789')
         self.uppercase_letters = set('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 
     def print_step(self, read_symbol, move):
         """Her adımda mevcut durumu, okunan sembolü, kafa hareketini ve dinamik bant içeriğini yan yana gösterir."""
-        # İkinci resimdeki gibi boşluk sembolünü çıktı esnasında daha estetik göstermek için
+     
         display_symbol = "boşluk" if read_symbol == '_' else read_symbol
         
-        # Bant içeriğinde o an okunan sembolü köşeli parantez [...] içine alma
+       
         visual_tape = []
         for i, char in enumerate(self.tape):
             if i == self.head_position:
-                # Boşluk sembolünü bantta görsel olarak [_] şeklinde göstermek için
+               
                 tape_char = "_" if char == '_' else char
                 visual_tape.append(f"[{tape_char}]")
             else:
@@ -39,7 +38,7 @@ class TuringMachine:
         
         tape_str = "".join(visual_tape)
         
-        # İkinci resimdeki gibi tüm bilgileri tek satırda yan yana hizalama
+        
         print(f"Mevcut Durum: {self.current_state:<5} | Okunan Sembol: {display_symbol:<6} | Kafa Hareketi: {move:<8} | Bant İçeriği: {tape_str}")
 
     def step(self):
@@ -49,7 +48,6 @@ class TuringMachine:
         else:
             read_symbol = self.tape[self.head_position]
 
-        # ---- q0: İlk rakam kontrolü ----
         if self.current_state == 'q0':
             if read_symbol in self.digits:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -59,7 +57,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q1: İkinci rakam kontrolü ----
+      
         elif self.current_state == 'q1':
             if read_symbol in self.digits:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -69,7 +67,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q2: İlk harf kontrolü ----
+        #
         elif self.current_state == 'q2':
             if read_symbol in self.uppercase_letters:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -79,7 +77,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q3: İkinci harf kontrolü ----
+      
         elif self.current_state == 'q3':
             if read_symbol in self.uppercase_letters:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -89,7 +87,6 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q4: Üçüncü rakam kontrolü ----
         elif self.current_state == 'q4':
             if read_symbol in self.digits:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -99,7 +96,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q5: Dördüncü rakam kontrolü ----
+      
         elif self.current_state == 'q5':
             if read_symbol in self.digits:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -109,7 +106,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q6: Beşinci rakam kontrolü (7. Karakter) ----
+   
         elif self.current_state == 'q6':
             if read_symbol in self.digits:
                 self.print_step(read_symbol, "Sağ (R)")
@@ -119,7 +116,6 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q7: Kabul durumu ve Boşluk Kontrolü ----
         elif self.current_state == 'q7':
             if read_symbol == '_':
                 self.print_step(read_symbol, "Dur (S)")
@@ -128,7 +124,7 @@ class TuringMachine:
                 self.print_step(read_symbol, "Dur (S)")
                 self.current_state = self.reject_state
 
-        # ---- q_red: Reddedilme Durumu (Halting) ----
+ 
         elif self.current_state == 'q_red':
             self.is_halted = True
 
@@ -150,7 +146,7 @@ class TuringMachine:
             return "RED"
 
 
-# ---- ANA PROGRAM ----
+
 if __name__ == "__main__":
     print("-----------------------------------------------")
     
